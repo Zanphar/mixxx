@@ -60,7 +60,7 @@ extern const ConfigKey kTagFetcherApplyCoverConfigKey;
 
 extern const ConfigKey kDateFormatConfigKey;
 
-const int kSidebarHoverExpandDelayDefault = 250; // ms
+const int kSidebarHoverExpandDelayDefault = 500; // ms
 
 extern const ConfigKey kSidebarHoverExpandDelayConfigKey;
 
