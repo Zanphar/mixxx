@@ -7,7 +7,6 @@
 
 namespace {
 
-const QString kMissingFilter = "mixxx_deleted=0 AND fs_deleted=1";
 const QString kModelName = "missing:";
 
 } // anonymous namespace
@@ -21,21 +20,19 @@ MissingTableModel::MissingTableModel(QObject* parent,
 
 void MissingTableModel::setTableModel(int id) {
     Q_UNUSED(id);
-    QSqlQuery query(m_database);
-    //query.prepare("DROP VIEW " + playlistTableName);
-    //query.exec();
-    QString tableName("missing_songs");
+    const QString tableName("missing_songs");
 
     QStringList columns;
     columns << "library." + LIBRARYTABLE_ID;
 
-    query.prepare("CREATE TEMPORARY VIEW IF NOT EXISTS " + tableName + " AS "
-                  "SELECT "
-                  + columns.join(",") +
-                  " FROM library "
-                  "INNER JOIN track_locations "
-                  "ON library.location=track_locations.id "
-                  "WHERE " + kMissingFilter);
+    QSqlQuery query(m_database);
+    query.prepare(
+            "CREATE TEMPORARY VIEW IF NOT EXISTS " + tableName +
+            " AS SELECT " + columns.join(",") +
+            " FROM library "
+            "INNER JOIN track_locations "
+            "ON library.location=track_locations.id "
+            "WHERE fs_deleted=1");
     if (!query.exec()) {
         qDebug() << query.executedQuery() << query.lastError();
     }
