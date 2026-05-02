@@ -18,8 +18,7 @@ MissingTableModel::MissingTableModel(QObject* parent,
     setTableModel();
 }
 
-void MissingTableModel::setTableModel(int id) {
-    Q_UNUSED(id);
+void MissingTableModel::setTableModel() {
     const QString tableName("missing_songs");
 
     QStringList columns;
@@ -49,6 +48,7 @@ void MissingTableModel::setTableModel(int id) {
             std::move(tableColumns),
             m_pTrackCollectionManager->internalCollection()->getTrackSource());
     setDefaultSort(fieldIndex(ColumnCache::COLUMN_LIBRARYTABLE_ARTIST), Qt::AscendingOrder);
+    setSearch("");
 }
 
 MissingTableModel::~MissingTableModel() {
