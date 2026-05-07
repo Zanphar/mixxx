@@ -391,8 +391,8 @@ void VinylControlXwax::analyzeSamples(CSAMPLE* pSamples, size_t nFrames) {
                    m_iPosition <= static_cast<int>(m_uiSafeZone) &&
                    m_dVinylPosition > 0 &&
                    checkSteadyPitch(dVinylPitch, filePosition) > 0.5) {
-            //if good position, and safe, and not in leadin, and steady,
-            //disable
+            // if good position, and safe, and not in lead-in, and steady,
+            // disable
             disableRecordEndMode();
         }
 
@@ -458,9 +458,9 @@ void VinylControlXwax::analyzeSamples(CSAMPLE* pSamples, size_t nFrames) {
                 m_bForceResync = false;
             } else if (fabs(m_dDriftAmt) > 0.1 &&
                     m_dVinylPosition < -2.0) {
-                //At first I thought it was a bug to resync to leadin in relative mode,
-                //but after using it that way it's actually pretty convenient.
-                //qDebug() << "Vinyl leadin";
+                // At first I thought it was a bug to resync to lead-in in relative mode,
+                // but after using it that way it's actually pretty convenient.
+                // qDebug() << "Vinyl lead-in";
                 syncPosition();
                 resetSteadyPitch(dVinylPitch, m_dVinylPosition);
                 if (uiUpdateTime(filePosition)) {
