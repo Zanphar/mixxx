@@ -1183,21 +1183,15 @@ ReadableSampleFrames SoundSourceFFmpeg::readSampleFramesClamped(
                         convertStreamTimeToFrameIndex(
                                 *m_pavStream, m_pavDecodedFrame->pts);
 
-                if (m_avutilVersion >= AV_VERSION_INT(56, 52, 100)) {
-                    // From ffmpeg 4.4 only audible samples are counted, i.e. any inaudible aka
-                    // "priming" samples are not included in nb_samples!
-                    // https://github.com/mixxxdj/mixxx/issues/10464
-                    if (streamFrameIndex < 0) {
 #if VERBOSE_DEBUG_LOG
-                        const auto inaudibleFrameCountUntilStartOfStream = -streamFrameIndex;
-                        kLogger.debug()
-                                << "Skipping"
-                                << inaudibleFrameCountUntilStartOfStream
-                                << "inaudible sample frames before the start of the stream";
-#endif
-                        streamFrameIndex = 0;
-                    }
+                if (streamFrameIndex < 0) {
+                    const SINT inaudibleFrameCountUntilStartOfStream = -streamFrameIndex;
+                    kLogger.info()
+                            << "Stream has"
+                            << inaudibleFrameCountUntilStartOfStream
+                            << "inaudible sample frames before the start";
                 }
+#endif
 
                 decodedFrameRange = IndexRange::forward(
                         streamFrameIndex,
