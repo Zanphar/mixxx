@@ -608,6 +608,9 @@ SoundSource::OpenResult SoundSourceFFmpeg::tryOpen(
         return SoundSource::OpenResult::Aborted;
     }
 
+    // Copy time base for random seeks:
+    pavCodecContext->pkt_timebase = pavStream->time_base;
+
     // Request output format
     pavCodecContext->request_sample_fmt = s_avSampleFormat;
     if (params.getSignalInfo().getChannelCount().isValid()) {
